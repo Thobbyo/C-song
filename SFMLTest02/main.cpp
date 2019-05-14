@@ -2,6 +2,14 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include "Notes.h"
+#include <string>
+#include <cmath>
+#include <cstdio>
+#include <cstdlib>
+#include <ctime>
+#include <map>
+#include "SoundMaker.h"
+#include "SoundGenerator.h"
 
 int main()
 {
@@ -9,6 +17,9 @@ int main()
 	window.setVerticalSyncEnabled(true);
 	sf::CircleShape shape(100.f);
 	shape.setFillColor(sf::Color::Green);
+
+	SoundGenerator SG;
+	SG.generateAllSound();
 
 	Notes maNote("Ressources/Sond/petitSond.wav");
 

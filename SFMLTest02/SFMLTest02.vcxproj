@@ -130,10 +130,14 @@
     <ClCompile Include="Instrument.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Notes.cpp" />
+    <ClCompile Include="SoundGenerator.cpp" />
+    <ClCompile Include="SoundMaker.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Instrument.h" />
     <ClInclude Include="Notes.h" />
+    <ClInclude Include="SoundGenerator.h" />
+    <ClInclude Include="SoundMaker.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
