@@ -25,6 +25,7 @@ Notes::Notes(sf::SoundBuffer soundBuffer)
 
 Notes::~Notes()
 {
+
 }
 
 // Fonction qui charge un sond depuis un fichier

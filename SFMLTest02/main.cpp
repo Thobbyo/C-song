@@ -10,6 +10,7 @@
 #include <map>
 #include "SoundMaker.h"
 #include "SoundGenerator.h"
+#include "Keybord.h"
 
 int main()
 {
@@ -18,10 +19,10 @@ int main()
 	sf::CircleShape shape(100.f);
 	shape.setFillColor(sf::Color::Green);
 
-	SoundGenerator SG;
-	SG.generateAllSound();
+	 // SoundGenerator SG;
+	 // SG.generateAllSound();
 
-	Notes maNote("Ressources/Sond/petitSond.wav");
+	Keybord* KInstance = Keybord::getInstance();
 
 	while (window.isOpen())
 	{
@@ -30,8 +31,8 @@ int main()
 		{
 			if (event.type == sf::Event::Closed)
 				window.close();
-			if (event.type == sf::Event::MouseButtonPressed) {
-				maNote.play();
+			if (event.type == sf::Event::KeyPressed) {
+				KInstance->play(event.key.code);
 			}
 		}
 

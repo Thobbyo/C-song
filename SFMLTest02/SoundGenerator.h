@@ -22,7 +22,6 @@ private:
 
 	static double two_pi;
 	static int nombreOctave;
-	// music_map[ note_letter ][ octave 0 - 8 ] == frequency
 	static std::map< char, std::vector<double>> music_map;
 };
 

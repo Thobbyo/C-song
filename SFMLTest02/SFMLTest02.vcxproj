@@ -128,6 +128,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Instrument.cpp" />
+    <ClCompile Include="Keybord.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Notes.cpp" />
     <ClCompile Include="SoundGenerator.cpp" />
@@ -135,6 +136,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Instrument.h" />
+    <ClInclude Include="Keybord.h" />
     <ClInclude Include="Notes.h" />
     <ClInclude Include="SoundGenerator.h" />
     <ClInclude Include="SoundMaker.h" />
