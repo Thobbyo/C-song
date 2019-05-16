@@ -59,7 +59,7 @@ void SoundGenerator::generateAllSound(int startOctave)
 			else {
 				fileName = fileName + notes[oneNote] + std::to_string(i) + ".wav";
 			}
-			std::cout << "1 : " + fileName << std::endl;
+			// std::cout << "1 : " + fileName << std::endl;
 			SoundMaker S(fileName);
 			generate_data(S, music_map[notes[oneNote]][startOctave+i]);
 			S.done(); // Final header adjustments and close file
@@ -74,34 +74,49 @@ void SoundGenerator::generate_data(SoundMaker& S, double freq, double amount_tim
 	double seconds = amount_time;
 
 	double chan_1 = 0.0; // channel 1
-	double chan_2 = 0.0; // channel 2
 
 	double amplitude = (double) 32760.0;
+	double curAmplitude = (double) 32760.0;
 	int period;
 	frequency == 0.0 ? period = -1 : period = (int)(hz / (2.0 * frequency)); // number of samples in a wave length
 
-	double step = max_amplitude / period;
+	// double step = max_amplitude / period;
 
 	int samples = hz * seconds;
 	int x;
 	double value;
+	double attack = 0.002;
 
 	for (int n = 0; n < samples; n++) {
 
-		chan_2 += step;
-		// x = n % (2 * period);
-		x = n / samples;
-		value = sin(((two_pi * n * frequency) / hz));
+		if (n <= hz * attack) {
+			// Linear build-up, fast.
+			curAmplitude = amplitude * (n/(hz*attack));
+		}
+		else { 
+			// Decay. Exponentially increasing (faster) decay
+			// at higher frequencies due to logarithmic dampener.
+			double dampen = pow(0.5 * log( (frequency * amplitude) / hz), 2);
+			// double dampen = log( (frequency * amplitude) / hz);
+			// double dampen = 1 + (0.01 * frequency);
+
+			curAmplitude = amplitude * pow( 
+				(1 - ( (n - (hz * attack) ) / (hz * (seconds - attack) ) ) )
+				, dampen );
+		}
+
+		value = sin(two_pi * ( (n / hz) * frequency) + (pow(baseGenerate(0, n, frequency, hz), 2) + (0.75 * baseGenerate(0.25, n, frequency, hz) ) + (0.1 * baseGenerate(0.5, n, frequency, hz) ) ) );
+		
+		value = fmin(fmax(value, -1), 1);
 
 		// Channel 1 has sine wave
-		chan_1 = amplitude * value;
+		chan_1 = curAmplitude * value;
 
-		// Channel 2 will have a half circle wave
-		chan_2 = sqrt(pow(2 * 32760.0, 2) * (1.0 - (pow(x - (period), 2) / pow(period, 2)))) - 32760.0;
-
-		if (frequency == 0.0)
-			chan_2 = 0.0;
-
-		S.add_sample((int)(chan_1), (int)(chan_2)); // Add sample to .wav file
+		S.add_sample((int)(chan_1), (int)(chan_1)); // Add sample to .wav file
 	}
+}
+
+double SoundGenerator::baseGenerate(int x, int n, double frequency, double hz)
+{
+	return sin(((two_pi * n * frequency) / hz) + (x * M_PI));
 }

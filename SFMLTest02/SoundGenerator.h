@@ -15,6 +15,7 @@ public:
 	void generateAllSound(int startOctave = 0);
 private:
 	void generate_data(SoundMaker& S, double freq, double amount_time = 1.0);
+	double baseGenerate(int x, int n, double frequency, double hz);
 	
 	double max_amplitude;
 	double hz;
